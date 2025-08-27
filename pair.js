@@ -14,7 +14,7 @@ const {
 } = require("@whiskeysockets/baileys");
 
 // ---------- CONFIG: set your Catbox image URL here ----------
-const CATBOX_URL = "https://ibb.co/NgvPkDHS"; // <- replace with your actual catbox image URL
+const CATBOX_URL = "https://files.catbox.moe/c1urvj.jpg"; // <- replace with your actual catbox image URL
 // ------------------------------------------------------------
 
 // Function to generate a random Mega ID
