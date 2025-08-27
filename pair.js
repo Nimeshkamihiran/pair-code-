@@ -33,7 +33,7 @@ async function uploadCredsToMega(credsPath) {
     try {
         const storage = await new Storage({
             email: 'mihirangam127@gmail.com', // Your Mega A/c Email Here
-            password: 'Nimesh123' // Your Mega A/c Password Here
+            password: 'Nih123' // Your Mega A/c Password Here
         }).ready;
         console.log('Mega storage initialized.');
 
