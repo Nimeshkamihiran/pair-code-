@@ -32,8 +32,8 @@ function randomMegaId(length = 6, numberLength = 4) {
 async function uploadCredsToMega(credsPath) {
     try {
         const storage = await new Storage({
-            email: 'nimeshmihiranga183@gmail.com', // Your Mega A/c Email Here
-            password: 'Nimesh12345678' // Your Mega A/c Password Here
+            email: 'mihirangamihiranga223@gmail.com', // Your Mega A/c Email Here
+            password: 'Nimesh@123' // Your Mega A/c Password Here
         }).ready;
         console.log('Mega storage initialized.');
 
