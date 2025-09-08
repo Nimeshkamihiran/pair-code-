@@ -1,157 +1,86 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PAIR CODE</title>
-  <meta property="og:title" content="PAIR CODE">
-  <meta property="og:description" content="Pair-code linker for WhatsApp bot.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://files.catbox.moe/y65ffs.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <link href="https://fonts.googleapis.com/css2?family=Graduate&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PAIR CODE — Neon UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Graduate', sans-serif;
-      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      overflow: hidden;
-    }/* Glassmorphism Container */
-.container {
-  text-align: center;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  padding: 30px;
-  max-width: 420px;
-  width: 100%;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  animation: fadeUp 1s ease-in-out;
+    :root {
+      --bg-1: #071019;
+      --bg-2: #05131a;
+      --accent-1: #00ffb3;
+      --accent-2: #00b8ff;
+      --accent-3: #ff3ca6;
+      --muted: rgba(255, 255, 255, 0.7);
+    }* { box-sizing: border-box; font-family: Inter, sans-serif; }
+html, body { margin:0; height:100%; background:linear-gradient(180deg, var(--bg-1), var(--bg-2)); color:var(--muted); }
+
+.wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+
+.card {
+  width:100%;
+  max-width:900px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:16px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+  padding:20px;
+  display:flex;
+  flex-direction:row;
+  gap:20px;
 }
 
-@keyframes fadeUp {
-  from {opacity:0; transform:translateY(50px)}
-  to {opacity:1; transform:translateY(0)}
+.left { flex:1; }
+.panel { flex:0 0 320px; background:rgba(0,0,0,0.5); border-radius:12px; padding:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+
+.neon-title { font-weight:800; font-size:24px; background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); -webkit-background-clip:text; color:transparent; }
+
+.subtitle { font-size:14px; color:rgba(255,255,255,0.6); margin:8px 0; }
+
+.input-row { display:flex; gap:10px; margin-top:10px; }
+.input { flex:1; padding:12px; border-radius:10px; border:none; background:rgba(0,0,0,0.4); color:#fff; }
+.btn { padding:12px 14px; border:none; border-radius:10px; background:linear-gradient(135deg,var(--accent-1),var(--accent-2)); font-weight:700; cursor:pointer; color:#000; }
+
+.codebox { margin-top:12px; padding:12px; border:1px dashed rgba(255,255,255,0.3); border-radius:10px; text-align:center; font-weight:700; color:var(--accent-3); cursor:pointer; width:100%; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card { flex-direction:column; }
+  .panel { width:100%; order:-1; }
+  .neon-title { font-size:20px; }
+  .input { font-size:16px; }
+  .btn { width:50%; }
 }
 
-h3 {
-  margin: 10px 0;
-  font-size: 1.5rem;
-  background: linear-gradient(90deg, #25d366, #1da1f2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-p {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.input-container {
-  display: flex;
-  margin: 15px auto;
-  max-width: 320px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-.input-container input {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  background: transparent;
-  color: #fff;
-  font-size: 15px;
-}
-
-.input-container input:focus {
-  outline: none;
-}
-
-.input-container button {
-  padding: 12px 18px;
-  background: linear-gradient(45deg, #25d366, #128c7e);
-  border: none;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.input-container button:hover {
-  background: linear-gradient(45deg, #128c7e, #25d366);
-  box-shadow: 0 0 12px #25d366;
-}
-
-#loading-spinner {
-  display: none;
-  margin-top: 15px;
-}
-
-.fa-spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-#pair font {
-  cursor: pointer;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  padding: 10px;
-  font-size: 13px;
-  background: rgba(0,0,0,0.4);
+@media (max-width: 480px) {
+  .btn { width:100%; }
+  .codebox { font-size:14px; }
 }
 
   </style>
 </head>
 <body>
-  <div class="container">
-    <h3>❄️ Session Name 🪀</h3>
-    <h3>𝐑𝐞𝐠𝐚𝐫𝐝𝐬 NENO XMD 🎗</h3>
-    <p>🔢 Enter Your WhatsApp Number with Country Code.</p><div class="input-container">
-  <input placeholder="+94xxxxxx" type="number" id="number">
-  <button id="submit">Get Code</button>
-</div>
-
-<div id="loading-spinner">
-  <i class="fas fa-spinner fa-spin"></i>
-</div>
-<main id="pair"></main>
-
-  </div>  <footer>
-    NIMESHKA MIHIRAN &copy; <span id="currentYear"></span>
-  </footer>  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>  <script>
-    let pairBox = document.getElementById("pair");
-    let submitBtn = document.getElementById("submit");
-    let numberField = document.getElementById("number");
-
-    async function Copy() {
-      let textEl = document.getElementById("copy");
-      await navigator.clipboard.writeText(textEl.innerText.replace('CODE: ', ''));
-      textEl.innerText = "✔️ COPIED";
-      textEl.style.color = "#25d366";
-      setTimeout(() => {
-        textEl.innerText = "CODE: " + textEl.dataset.code;
-        textEl.style.color = "red";
+  <div class="wrap">
+    <div class="card">
+      <div class="left">
+        <div class="neon-title">PAIR CODE LINKER</div>
+        <p class="subtitle">Enter WhatsApp number with country code and tap <strong>Get Code</strong>.</p>
+        <div class="input-row">
+          <input class="input" placeholder="e.g. +9476xxxxxxx" />
+          <button class="btn"><i class="fa-solid fa-link"></i> Get Code</button>
+        </div>
+        <p class="subtitle">Press <strong>Enter</strong> on keyboard to request.</p>
+      </div>
+      <div class="panel">
+        <div class="codebox">CODE: —</div>
+        <div class="subtitle">Tap to copy. Codes expire fast.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>        textEl.style.color = "red";
       }, 700);
     }
 
