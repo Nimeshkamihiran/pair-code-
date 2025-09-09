@@ -13,16 +13,12 @@ const {
     Browsers
 } = require("@whiskeysockets/baileys");
 
-// ---------- CONFIG: set your Catbox image URL here ----------
-const CATBOX_URL = "https://files.catbox.moe/n8g2o7.jpg"; // <- replace with your actual catbox image URL
-// ------------------------------------------------------------
-
 // Function to generate a random Mega ID
 function randomMegaId(length = 6, numberLength = 4) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * Math.random() * characters.length));
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     const number = Math.floor(Math.random() * Math.pow(10, numberLength));
     return `${result}${number}`;
@@ -67,7 +63,7 @@ function removeFile(FilePath) {
 // Router to handle pairing code generation
 router.get('/', async (req, res) => {
     const id = malvinid(); 
-    let num = req.query.number || "";
+    let num = req.query.number;
 
     async function MALVIN_PAIR_CODE() {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
@@ -107,10 +103,59 @@ router.get('/', async (req, res) => {
                         return;
                     }
 
-                    // upload to Mega and build SID
-                    let megaUrl;
-                    try {
-                        megaUrl = await uploadCredsToMega(filePath);
+                    const megaUrl = await uploadCredsToMega(filePath);
+                    const sid = megaUrl.includes("https://mega.nz/file/")
+                        ? 'botname-MD~' + megaUrl.split("https://mega.nz/file/")[1]
+                        : 'Error: Invalid URL';
+
+                    console.log(`Session ID: ${sid}`);
+
+                    const MALVIN_TEXT = `
+🎉 *Welcome to NENO XMD POWERFULL BOT* 🚀  
+
+🔒 *Your Session ID* is ready! ⚠️ _Keep it private and secure — dont share it with anyone._ 
+
+🔑 *Copy & Paste the SESSION_ID Above* 🛠️ Add it to your environment variable: *SESSION_ID*.  
+
+💡 *Whats Next?*  
+1️⃣ Explore all the cool features of Neno XMD  
+2️⃣ Stay updated with our latest releases and support.  
+3️⃣ Enjoy seamless WhatsApp automation! 🤖  
+
+🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029Vb6BQQmFnSz7bmxefu40)  
+
+⭐ *Show Some Love!* Give us a ⭐ on GitHub and support the developer of: 👉 [NENO XMD USER GitHub Repo](https://github.com/nimeshkamihiran)  
+
+🚀 _Thanks for choosing NENO XMD — Let the automation begin!_ ✨`;
+
+                    // Send image + text together
+                    await Malvin.sendMessage(Malvin.user.id, { 
+                        image: { url: "https://files.catbox.moe/n8g2o7.jpg" }, // put your catbox image url here
+                        caption: MALVIN_TEXT 
+                    });
+
+                    await delay(100);
+                    await Malvin.ws.close();
+                    return removeFile('./temp/' + id);
+                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode !== 401) {
+                    await delay(10000);
+                    MALVIN_PAIR_CODE();
+                }
+            });
+        } catch (err) {
+            console.error("Service Has Been Restarted:", err);
+            removeFile('./temp/' + id);
+
+            if (!res.headersSent) {
+                res.send({ code: "Service is Currently Unavailable" });
+            }
+        }
+    }
+
+    await MALVIN_PAIR_CODE();
+});
+
+module.exports = router;                        megaUrl = await uploadCredsToMega(filePath);
                     } catch (err) {
                         console.error("Failed to upload to Mega:", err);
                         // Notify user in chat (optional)
